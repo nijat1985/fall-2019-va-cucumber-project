@@ -1,7 +1,12 @@
 package com.cybertek.library.step_definitions;
 
+import com.cybertek.library.pages.DashboardPage;
+import com.cybertek.library.pages.LoginPage;
+import com.cybertek.library.pages.PageBase;
 import com.cybertek.library.pages.UsersPage;
 import com.cybertek.library.utilities.BrowserUtils;
+import com.cybertek.library.utilities.ConfigurationReader;
+import com.cybertek.library.utilities.Driver;
 import com.github.javafaker.Faker;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,13 +17,15 @@ import org.openqa.selenium.WebElement;
 import java.time.LocalDate;
 import java.util.List;
 
-public class UsersTestsStepDef {
+public class UsersTestsStepDefHomework {
     UsersPage usersPage = new UsersPage();
     Faker fakeData = new Faker();
     String emailToCheck;
     String groupToCheck;
     String statusToCheck;
     String fullNameToCheck;
+    LoginPage loginPage = new LoginPage();
+    DashboardPage dashboardPage = new DashboardPage();
 
     @Given("I click on Add User")
     public void i_click_on_Add_User() {
@@ -88,4 +95,74 @@ public class UsersTestsStepDef {
         Assert.assertEquals(groupInTable, groupToCheck);
         Assert.assertEquals(statusInTable, statusToCheck);
     }
+
+
+    @Given("I access {string} page as a {string}")
+    public void i_access_page_as_a(String page, String user) {
+        String url = ConfigurationReader.getProperty("url");
+        Driver.getDriver().get(url);
+        switch (user){
+            case "librarian":
+                loginPage.login(ConfigurationReader.getProperty("librarian_email"),
+                        ConfigurationReader.getProperty("librarian_password"));
+                break;
+            case "student":
+                loginPage.login(ConfigurationReader.getProperty("student_email"),
+                        ConfigurationReader.getProperty("student_password"));
+                break;
+        }
+
+        dashboardPage.users.click();
+
+    }
+
+    @Then("User group default value should be {string}")
+    public void user_group_default_value_should_be(String userGroup) {
+        Assert.assertEquals(usersPage.getUserGroupFilter().getFirstSelectedOption().getText().toLowerCase(),userGroup.toLowerCase());
+    }
+
+    @Then("user group should have following options:")
+    public void user_group_should_have_following_options(List<String> userGroupFilter) {
+        Assert.assertEquals(BrowserUtils.getElementsText(usersPage.getUserGroupFilter().getOptions()),userGroupFilter);
+    }
+
+    @When("I select User group {string}")
+    public void i_select_User_group(String userGroupFilter) {
+        switch (userGroupFilter.toLowerCase()){
+            case "all":
+                usersPage.getUserGroupFilter().selectByIndex(0);
+                break;
+            case "librarian":
+                usersPage.getUserGroupFilter().selectByIndex(1);
+                break;
+            case "student":
+                usersPage.getUserGroupFilter().selectByIndex(2);
+                break;
+        }
+    }
+
+    @Then("Groups columns in user table should only contain {string}")
+    public void groups_columns_in_user_table_should_only_contain(String userGroupFilter) {
+        int size = usersPage.getShowRecords().getOptions().size();
+        BrowserUtils.wait(3);
+        usersPage.getShowRecords().selectByIndex(size - 1);
+        switch (userGroupFilter.toLowerCase()){
+            case "librarian":
+                BrowserUtils.wait(2);
+                List<String> groupTextList = BrowserUtils.getElementsText(usersPage.groupList);
+                for (int i = 0; i < groupTextList.size(); i++) {
+                    Assert.assertEquals(groupTextList.get(i).toLowerCase(),userGroupFilter.toLowerCase());
+                }
+                break;
+            case "student":
+                BrowserUtils.wait(2);
+                groupTextList = BrowserUtils.getElementsText(usersPage.groupList);
+                for (int i = 0; i < groupTextList.size(); i++) {
+                    Assert.assertEquals(groupTextList.get(i).toLowerCase(),userGroupFilter.toLowerCase());
+                }
+                break;
+        }
+    }
+
+
 }

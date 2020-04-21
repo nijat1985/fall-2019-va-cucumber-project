@@ -1,4 +1,4 @@
-@show_records @smoke @regression @lib-7031  @steps
+@show_records @smoke @regression @lib-7031
 Feature: Add Users window
 #I access Users page as a librarian
   Background:

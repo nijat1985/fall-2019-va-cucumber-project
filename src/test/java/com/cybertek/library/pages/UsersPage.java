@@ -65,6 +65,13 @@ public class UsersPage extends PageBase {
     @FindBy(tagName = "th")
     public List<WebElement> columnNames;
 
+    @FindBy(id = "user_groups")
+    public WebElement user_groups_filter;
+
+    public Select getUserGroupFilter(){
+        return new Select(user_groups_filter);
+    }
+
     public Select getStatus(){
         return new Select(status);
     }
