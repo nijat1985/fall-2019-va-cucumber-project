@@ -8,10 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BrowserUtils {
     /**
@@ -38,7 +35,7 @@ public class BrowserUtils {
         List<String> textValues = new ArrayList<>();
         for (WebElement element : elements) {
             if (!element.getText().isEmpty()) {
-                textValues.add(element.getText().trim());
+                textValues.add(element.getText());
             }
         }
         return textValues;
@@ -155,6 +152,43 @@ public class BrowserUtils {
         String endMonth = endDate.split("-")[1];
         difference = Integer.parseInt(endMonth) - Integer.parseInt(startMonth);
         return difference;
+    }
+
+    public static boolean isSortedAscendingOrder(List<WebElement> list){
+        boolean isSorted = false;
+        List<String> listText = getElementsText(list);
+        List<String> listTextLowercase = new ArrayList<>();
+
+        for (int i = 0; i < listText.size(); i++) {
+            listTextLowercase.add(listText.get(i).toLowerCase());
+        }
+
+        List<String> listTextToSort = new ArrayList<>(listTextLowercase);
+        Collections.sort(listTextToSort);
+        isSorted = listTextLowercase.equals(listTextToSort);
+
+        System.out.println("listTextToSort.toString() = " + listTextToSort.toString());
+        System.out.println("listTextLowercase = " + listTextLowercase);
+
+        return isSorted;
+    }
+
+    public static boolean isSortedDescendingOrder(List<WebElement> list){
+        boolean isSorted = false;
+        List<String> listText = getElementsText(list);
+        List<String> listTextLowercase = new ArrayList<>();
+
+        for (int i = 0; i < listText.size(); i++) {
+            listTextLowercase.add(listText.get(i).toLowerCase());
+        }
+        List<String> listTextToSort = new ArrayList<>(listTextLowercase);
+        Collections.sort(listTextToSort,Collections.reverseOrder());
+        isSorted = listTextLowercase.equals(listTextToSort);
+
+        System.out.println("listTextToSort.toString() = " + listTextToSort.toString());
+        System.out.println("listTextLowercase = " + listTextLowercase.toString());
+
+        return isSorted;
     }
 
 

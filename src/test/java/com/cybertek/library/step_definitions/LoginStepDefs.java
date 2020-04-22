@@ -10,6 +10,8 @@ import org.junit.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Map;
+
 public class LoginStepDefs {
     LoginPage loginPage = new LoginPage();
 
@@ -47,6 +49,19 @@ public class LoginStepDefs {
     @When("I login as an admin")
     public void i_login_as_a_admin() {
         System.out.println("Logging in as an admin");
+    }
+
+
+    @Given("I login using following credentials:")
+    public void i_login_using_following_credentials(Map<String, String> credentials) {
+        System.out.println(credentials);
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+
+        System.out.println("email = " + email);
+        System.out.println("password = " + password);
+
+        loginPage.login(email,password);
     }
 
 }

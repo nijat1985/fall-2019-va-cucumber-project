@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 public class UsersTestsStepDefHomework {
     UsersPage usersPage = new UsersPage();
@@ -26,11 +27,7 @@ public class UsersTestsStepDefHomework {
     String fullNameToCheck;
     LoginPage loginPage = new LoginPage();
     DashboardPage dashboardPage = new DashboardPage();
-
-    @Given("I click on Add User")
-    public void i_click_on_Add_User() {
-        usersPage.addUser.click();
-    }
+    Random random = new Random();
 
     @Then("start date should be today's date")
     public void start_date_should_be_today_s_date() {
@@ -163,6 +160,71 @@ public class UsersTestsStepDefHomework {
                 break;
         }
     }
+
+
+    @When("I search for any valid email")
+    public void i_search_for_any_valid_email() {
+        List<String> emailList = BrowserUtils.getElementsText(usersPage.allEmails);
+        String randomEmail = emailList.get(random.nextInt(emailList.size()));
+        usersPage.search.sendKeys(randomEmail);
+    }
+
+    @When("I search for any invalid email")
+    public void i_search_for_any_invalid_email() {
+        String invalidEmail = fakeData.name().firstName() + fakeData.number().digits(3) + "&" + fakeData.funnyName().name();
+        usersPage.search.sendKeys(invalidEmail);
+    }
+
+    @Then("the users table must display message {string}")
+    public void the_users_table_must_display_message(String message) {
+        Assert.assertEquals(usersPage.emptyTableMessage.getText(),message);
+    }
+
+    @Then("users table should be sorted by {string} in {string} order")
+    public void users_table_should_be_sorted_by_in_order(String columnName, String order) {
+        switch (columnName.toLowerCase()){
+            case "user id":
+                switch (order.toLowerCase()){
+                    case "ascending":
+                        BrowserUtils.wait(2);
+                        Assert.assertTrue(BrowserUtils.isSortedAscendingOrder(usersPage.allUserIds));
+                        break;
+                    case "descending":
+                        BrowserUtils.wait(2);
+                        Assert.assertTrue(BrowserUtils.isSortedDescendingOrder(usersPage.allUserIds));
+                        break;
+                }
+                break;
+
+            case "email":
+                switch (order.toLowerCase()){
+                    case "ascending":
+                        BrowserUtils.wait(2);
+                        Assert.assertTrue(BrowserUtils.isSortedAscendingOrder(usersPage.allEmails));
+                        break;
+                    case "descending":
+                        BrowserUtils.wait(2);
+                        Assert.assertTrue(BrowserUtils.isSortedDescendingOrder(usersPage.allEmails));
+                        break;
+                }
+                break;
+        }
+    }
+
+    @When("I click on the {string} column")
+    public void i_click_on_the_column(String columnName) {
+        switch (columnName.toLowerCase()){
+            case "user id":
+                BrowserUtils.wait(2);
+                usersPage.userIdColumn.click();
+                break;
+            case "email":
+                BrowserUtils.wait(2);
+                usersPage.emailColumn.click();
+                break;
+        }
+    }
+
 
 
 }

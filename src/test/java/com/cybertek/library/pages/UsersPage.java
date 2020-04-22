@@ -14,8 +14,8 @@ public class UsersPage extends PageBase {
     @FindBy(xpath = "//table/tbody/tr")
     public List<WebElement> allRows;
 
-    @FindBy(xpath = "//a[@class='btn btn-lg btn-outline btn-primary btn-sm']")
-    public WebElement addUser;
+    @FindBy(css = "a.btn-lg")
+    public WebElement addUsers;
 
     @FindBy(xpath = "//input[@name='start_date']")
     public WebElement start_date;
@@ -65,8 +65,20 @@ public class UsersPage extends PageBase {
     @FindBy(tagName = "th")
     public List<WebElement> columnNames;
 
+    @FindBy(id = "address")
+    public WebElement address;
+
     @FindBy(id = "user_groups")
     public WebElement user_groups_filter;
+
+    @FindBy(css = ".dataTables_empty")
+    public WebElement emptyTableMessage;
+
+    @FindBy(xpath = "//th[@data-name='id']")
+    public WebElement userIdColumn;
+
+    @FindBy(xpath = "//table/thead/tr/th[4]")
+    public WebElement emailColumn;
 
     public Select getUserGroupFilter(){
         return new Select(user_groups_filter);

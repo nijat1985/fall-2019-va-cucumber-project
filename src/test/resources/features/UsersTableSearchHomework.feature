@@ -2,21 +2,24 @@
 Feature: User table search and sort
 
   Background:
-    Given I access Users page as a librarian
+    Given I access "Users" page as a "librarian"
+
 
   Scenario: Search by valid email
     When I search for any valid email
     Then the users table must display 1 records
 
+
   Scenario: Search by invalid email
     When I search for any invalid email
     Then the users table must display message "No data available in table"
 
+  @steps
   Scenario: default sort User Management
-    Then users table should be sorted by "User ID" in "ascending" order
+    Then users table should be sorted by "User ID" in "descending" order
     When I click on the "User ID" column
-    Then users table should be sorted by "User ID" in "descending" order
-    When I click on the "Email" column
     Then users table should be sorted by "User ID" in "ascending" order
     When I click on the "Email" column
-    Then users table should be sorted by "User ID" in "descending" order
+    Then users table should be sorted by "Email" in "ascending" order
+    When I click on the "Email" column
+    Then users table should be sorted by "Email" in "descending" order
