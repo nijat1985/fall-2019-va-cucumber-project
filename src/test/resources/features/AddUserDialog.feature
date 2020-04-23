@@ -1,6 +1,6 @@
 Feature: Add new users dialog
 
-  @wip
+
   Scenario: Placeholder test
     Given I am on the login page
     And I login using following credentials:
@@ -14,7 +14,7 @@ Feature: Add new users dialog
     | password | Password |
     | address |   |
 
-  @wip
+
    Scenario: Verify user information
      Given I am on the login page
      And I login using following credentials:

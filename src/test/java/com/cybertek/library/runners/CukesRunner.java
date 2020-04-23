@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/cybertek/library/step_definitions",
         dryRun = false,
-        tags = "@steps"
+        tags = " @steps"
 //        tags = "librarian" // run if librarian applies to it
 //        tags = "@login and @staff" // run if @login and @staff both applies to it
 //        tags = "@admin or @staff" // run if either @admin or @staff applies to it

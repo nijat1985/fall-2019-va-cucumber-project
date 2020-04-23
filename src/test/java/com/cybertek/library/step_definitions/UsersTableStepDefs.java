@@ -5,7 +5,9 @@ import com.cybertek.library.utilities.BrowserUtils;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -40,6 +42,21 @@ public class UsersTableStepDefs {
     @Then("table should have following column names:")
     public void table_should_have_following_column_names(List<String> expectedColumnNames) {
        assertEquals(expectedColumnNames,BrowserUtils.getElementsText(usersPage.columnNames));
+    }
+
+    @Then("Each user id should be unique")
+    public void each_user_id_should_be_unique() {
+        usersPage.getShowRecords().selectByVisibleText("500");
+        BrowserUtils.wait(2);
+
+        List<String> list = BrowserUtils.getElementsText(usersPage.allUserIds);
+        System.out.println("list = " + list);
+
+        Set<String> set = new HashSet<>(list);
+        System.out.println("set = " + set);
+
+        assertEquals(list.size(),set.size());
+
     }
 
 

@@ -35,7 +35,7 @@ public class BrowserUtils {
         List<String> textValues = new ArrayList<>();
         for (WebElement element : elements) {
             if (!element.getText().isEmpty()) {
-                textValues.add(element.getText());
+                textValues.add(element.getText().trim());
             }
         }
         return textValues;
@@ -156,7 +156,13 @@ public class BrowserUtils {
 
     public static boolean isSortedAscendingOrder(List<WebElement> list){
         boolean isSorted = false;
-        List<String> listText = getElementsText(list);
+        List<String> listText = new ArrayList<>();
+        for (WebElement element : list) {
+            if (!element.getText().isEmpty()) {
+                listText.add(element.getAttribute("textContent"));
+            }
+        }
+        //List<String> listText = getElementsText(list);
         List<String> listTextLowercase = new ArrayList<>();
 
         for (int i = 0; i < listText.size(); i++) {
@@ -175,7 +181,13 @@ public class BrowserUtils {
 
     public static boolean isSortedDescendingOrder(List<WebElement> list){
         boolean isSorted = false;
-        List<String> listText = getElementsText(list);
+        List<String> listText = new ArrayList<>();
+        for (WebElement element : list) {
+            if (!element.getText().isEmpty()) {
+                listText.add(element.getAttribute("textContent"));
+            }
+        }
+        //List<String> listText = getElementsText(list);
         List<String> listTextLowercase = new ArrayList<>();
 
         for (int i = 0; i < listText.size(); i++) {

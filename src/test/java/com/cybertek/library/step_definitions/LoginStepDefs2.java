@@ -1,9 +1,11 @@
 package com.cybertek.library.step_definitions;
 
+import com.cybertek.library.pages.LoginPage;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class LoginStepDefs2 {
+    LoginPage loginPage = new LoginPage();
 
     @When("I enter username {string}")
     public void i_enter_username(String username) {
@@ -27,7 +29,7 @@ public class LoginStepDefs2 {
 
     @When("I login using {string} and {string}")
     public void i_login_using_and(String username, String password) {
-        System.out.println("Logging in using " + username + " and " + password);
+        loginPage.login(username,password);
     }
 
     @Then("there should be {int} {string}")

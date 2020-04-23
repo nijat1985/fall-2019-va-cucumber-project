@@ -80,6 +80,9 @@ public class UsersPage extends PageBase {
     @FindBy(xpath = "//table/thead/tr/th[4]")
     public WebElement emailColumn;
 
+    @FindBy(css = "a.page-link:not([title])")
+    public List<WebElement> pagesList;
+
     public Select getUserGroupFilter(){
         return new Select(user_groups_filter);
     }
