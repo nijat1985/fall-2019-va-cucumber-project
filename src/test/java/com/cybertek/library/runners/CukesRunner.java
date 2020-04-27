@@ -6,10 +6,15 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
+        plugin = {"html:target/default-cucumber-reports",
+                  "rerun:target/rerun.txt",
+                  "json:target/cucumber.json",
+                  "pretty"
+                },
         features = "src/test/resources/features",
         glue = "com/cybertek/library/step_definitions",
         dryRun = false,
-        tags = " @steps"
+        tags = "@wip"
 //        tags = "librarian" // run if librarian applies to it
 //        tags = "@login and @staff" // run if @login and @staff both applies to it
 //        tags = "@admin or @staff" // run if either @admin or @staff applies to it

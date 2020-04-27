@@ -1,4 +1,4 @@
-@show_records @smoke @regression @lib-7031
+@show_records @smoke @lib-7031
 Feature: User table search and sort
 
   Background:

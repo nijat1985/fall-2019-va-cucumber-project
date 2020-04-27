@@ -1,11 +1,11 @@
-@show_records @smoke @regression @lib-7031
+@show_records @smoke @lib-7031
 Feature: Add Users window
 #I access Users page as a librarian
   Background:
     Given I am on the login page
     And I login as a librarian
     And I click on link "Users" link
-    And I click on Add User
+    And I click on Add Users
 
   Scenario: Add users window default dates
     Then start date should be today's date

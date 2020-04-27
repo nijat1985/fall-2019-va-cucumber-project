@@ -10,14 +10,14 @@ Feature: login
 
 # Test CASE
 
-  @wip
+
   Scenario Outline: verify user information <email>
     Given I am on the login page
     When I login using "<email>" and "<password>"
     Then account holder name should be "<name>"
 
 # Test DATA
-
+#   Scenarios:
     Examples:
       | email             | password | name            |
       | student26@library | JTvaF3br | Test Student 26 |

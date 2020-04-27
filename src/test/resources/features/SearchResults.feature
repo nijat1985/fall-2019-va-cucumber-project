@@ -1,3 +1,4 @@
+@regression @only
 Feature: Search functionality on the users page
   Background:
     Given I am on the login page
