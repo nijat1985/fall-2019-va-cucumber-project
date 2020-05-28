@@ -47,6 +47,12 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -58,12 +64,12 @@
                 <configuration>
                     <includes>
                         <include>**/CukesRunner.java</include>
-                        <include>**/FailedTestRunner.java</include>
+<!--                        <include>**/FailedTestRunner.java</include>-->
                     </includes>
                     <testFailureIgnore>true</testFailureIgnore>
                     <runOrder>alphabetical</runOrder>
                     <parallel>methods</parallel>
-                    <threadCount>10</threadCount>
+                    <threadCount>7</threadCount>
                     <perCoreThreadCount>false</perCoreThreadCount>
                     <forkCount>2C</forkCount>
                 </configuration>

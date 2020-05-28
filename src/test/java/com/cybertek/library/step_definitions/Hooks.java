@@ -1,5 +1,7 @@
 package com.cybertek.library.step_definitions;
 
+import com.cybertek.library.utilities.ConfigurationReader;
+import com.cybertek.library.utilities.DBUtils;
 import com.cybertek.library.utilities.Driver;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
@@ -16,19 +18,26 @@ public class Hooks {
     }
 
 
-//    @Before(value = "@db", order = 1)
-//    public void connect(){
-//        System.out.println("connecting to db");
-//    }
+    @Before(value = "@db", order = 1)
+    public void connect(){
+        System.out.println("connecting to db");
+        String URL = "jdbc:mysql://" + ConfigurationReader.getProperty("qa2_db_host") +
+                ConfigurationReader.getProperty("qa2_db_name");
+        String username = ConfigurationReader.getProperty("qa2_db_username");
+        String password = ConfigurationReader.getProperty("qa2_db_password");
+        System.out.println("URL = " + URL);
+        DBUtils.createConnection(URL,username,password);
+    }
 
-    @After
+    @After(order = 0)
     public void tearDownScenario(Scenario scenario){
         if (scenario.isFailed()){
 //            System.out.println("scenario.getSourceTagNames() = " + scenario.getSourceTagNames());
 //            System.out.println("scenario.getName() = " + scenario.getName());
             scenario.write("Complete scenario " + scenario.getName());
             //take screenshot here
-           final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+
+            final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
 
             //attach to report
             scenario.embed(screenshot,"image/png",scenario.getName());
@@ -39,10 +48,11 @@ public class Hooks {
         Driver.closeDriver();
     }
 
-//    @After("@db")
-//    public void closeConnection(){
-//        System.out.println("closing connection to db");
-//    }
+    @After(value = "@db", order = 1)
+    public void closeConnection(){
+        System.out.println("closing connection to db");
+        DBUtils.destroy();
+    }
 
 
 

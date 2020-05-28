@@ -9,7 +9,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class Driver {
@@ -17,12 +21,17 @@ public class Driver {
     }
 
     private static ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
+    private static ChromeOptions chromeOptions;
+    private static FirefoxOptions firefoxOptions;
 
 
     public static WebDriver getDriver() {
         if (driverPool.get() == null) {
-
-            String browser = ConfigurationReader.getProperty("browser");
+            //check the command line argument browser. If it has value, use that
+            //if no browser value is passed from command line, use the properties
+            //mvn test -Dbrowser=remote-chrome
+            //mvn test -Dbrowser=
+            String browser = System.getProperty("browser") != null ? System.getProperty("browser") : ConfigurationReader.getProperty("browser");
 
             switch (browser) {
                 case "chrome":
@@ -60,6 +69,24 @@ public class Driver {
                         throw new WebDriverException("Your OS doesn't support Safari");
                     WebDriverManager.getInstance(SafariDriver.class).setup();
                     driverPool.set(new SafariDriver());
+                    break;
+                case "remote-chrome":
+                    chromeOptions = new ChromeOptions();
+                    try {
+                        URL url = new URL("http://3.86.231.96:4444/wd/hub");
+                        driverPool.set(new RemoteWebDriver(url,chromeOptions));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "remote-firefox":
+                    firefoxOptions = new FirefoxOptions();
+                    try {
+                        URL url = new URL("http://3.86.231.96:4444/wd/hub");
+                        driverPool.set(new RemoteWebDriver(url,firefoxOptions));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }
