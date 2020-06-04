@@ -83,19 +83,19 @@ public class BrowserUtils {
      * write a utility that takes a String url
      * changes to tab with given url,
      * if such url is not found, go back to original window
-     * @param driver
      * @param url
      */
 
-    public static void getNewWindowByUrl(WebDriver driver, String url){
-        Set<String> windowHandle = driver.getWindowHandles();
+    public static void switchToWindowByUrl(String url){
+        String origin = Driver.getDriver().getWindowHandle();
+        Set<String> windowHandle = Driver.getDriver().getWindowHandles();
         for (String window : windowHandle) {
-            driver.switchTo().window(window);
-            if (driver.getCurrentUrl().equals(url)){
-                break;
+            Driver.getDriver().switchTo().window(window);
+            if (Driver.getDriver().getCurrentUrl().equals(url)){
+                return;
             }
-            driver.switchTo().defaultContent();
         }
+        Driver.getDriver().switchTo().window(origin);
     }
 
     public static WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
