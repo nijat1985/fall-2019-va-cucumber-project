@@ -90,6 +90,7 @@ public class UsersPage extends PageBase {
     public Select getStatus(){
         return new Select(status);
     }
+    
 
     public Select getUserGroup(){
         return new Select(userGroup);

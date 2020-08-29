@@ -15,6 +15,7 @@ Feature: login
     Given I am on the login page
     When I login using "<email>" and "<password>"
     Then account holder name should be "<name>"
+    Then Etibar said how are you
 
 # Test DATA
 #   Scenarios:
